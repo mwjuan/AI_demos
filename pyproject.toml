@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ai-learning-lab"
+version = "0.1.0"
+description = "以个人知识库助手为主线的 Python AI 应用学习空间"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "httpx>=0.27,<1",
+  "openai>=1.0,<3",
+  "python-dotenv>=1.0,<2",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<10"]
+
+[project.scripts]
+lesson-1 = "week01_first_api.cli:main"
+lesson-1-experiment = "week01_first_api.experiment:main"
+
+[tool.setuptools.packages.find]
+where = ["demos/week-01-first-api/src"]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["demos/week-01-first-api/tests", "tests"]
