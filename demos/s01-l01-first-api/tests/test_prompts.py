@@ -1,6 +1,6 @@
 import pytest
 
-from week01_first_api.prompts import PROMPTS, get_prompt
+from s01_l01_first_api.prompts import PROMPTS, get_prompt
 
 
 def test_contains_four_comparable_prompts() -> None:
@@ -14,4 +14,3 @@ def test_reads_named_prompt() -> None:
 def test_rejects_unknown_prompt() -> None:
     with pytest.raises(ValueError, match="可选值"):
         get_prompt("unknown")
-

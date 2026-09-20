@@ -19,7 +19,7 @@ python -m pip install -e '.[dev]'
 复制配置文件，并把自己的 API 密钥写入 `.env`：
 
 ```bash
-cp demos/week-01-first-api/.env.example demos/week-01-first-api/.env
+cp demos/s01-l01-first-api/.env.example demos/s01-l01-first-api/.env
 ```
 
 `.env` 已被忽略，不会进入版本库。不要把密钥写入源代码、截图或聊天消息。
@@ -46,7 +46,7 @@ AI_PROXY_URL=http://127.0.0.1:7897
 
 ## 你的核心任务
 
-打开 `src/week01_first_api/model.py`，实现 `call_model(prompt, client=..., model=...)` 中标出的 TODO。要求：
+打开 `src/s01_l01_first_api/model.py`，实现 `call_model(prompt, client=..., model=...)` 中标出的 TODO。要求：
 
 1. 使用已经传入的 `client` 调用兼容的 Chat Completions API，不能在函数里读取或打印密钥。
 2. 使用 `model` 和 `prompt` 参数，不写死问题。
@@ -59,22 +59,22 @@ AI_PROXY_URL=http://127.0.0.1:7897
 完成后先运行不联网的检查：
 
 ```bash
-python demos/week-01-first-api/scripts/check_progress.py
+python demos/s01-l01-first-api/scripts/check_progress.py
 pytest
 ```
 
 再发出真实请求：
 
 ```bash
-python -m week01_first_api direct
-python -m week01_first_api audience
-python -m week01_first_api example
+python -m s01_l01_first_api direct
+python -m s01_l01_first_api audience
+python -m s01_l01_first_api example
 ```
 
 最后一次运行三组实验并保存结果：
 
 ```bash
-python -m week01_first_api.experiment
+python -m s01_l01_first_api.experiment
 ```
 
 实验结果会写入当前目录的 `results/`。它只保存提示词、回答和用量，不保存密钥。

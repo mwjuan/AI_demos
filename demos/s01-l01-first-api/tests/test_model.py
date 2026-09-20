@@ -3,7 +3,7 @@ from unittest.mock import Mock
 
 import pytest
 
-from week01_first_api.model import call_model
+from s01_l01_first_api.model import call_model
 
 
 def make_client(response: object = None, error: Exception | None = None) -> Mock:
@@ -77,4 +77,3 @@ def test_preserves_cause_and_returns_actionable_error(
     with pytest.raises(RuntimeError, match=message) as raised:
         call_model("hello", client=make_client(error=error), model="test-model")
     assert raised.value.__cause__ is error
-

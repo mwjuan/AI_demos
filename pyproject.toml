@@ -18,12 +18,12 @@ dependencies = [
 dev = ["pytest>=8,<10"]
 
 [project.scripts]
-lesson-1 = "week01_first_api.cli:main"
-lesson-1-experiment = "week01_first_api.experiment:main"
+s01-l01 = "s01_l01_first_api.cli:main"
+s01-l01-experiment = "s01_l01_first_api.experiment:main"
 
 [tool.setuptools.packages.find]
-where = ["demos/week-01-first-api/src"]
+where = ["demos/s01-l01-first-api/src"]
 
 [tool.pytest.ini_options]
 addopts = "-q"
-testpaths = ["demos/week-01-first-api/tests", "tests"]
+testpaths = ["demos/s01-l01-first-api/tests", "tests"]

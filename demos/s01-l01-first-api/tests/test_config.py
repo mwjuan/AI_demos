@@ -1,6 +1,6 @@
 import pytest
 
-from week01_first_api.config import Config, load_config
+from s01_l01_first_api.config import Config, load_config
 
 PLACEHOLDER_KEY = "test-key"
 OPENAI_PLACEHOLDER_KEY = f"sk-{PLACEHOLDER_KEY}"

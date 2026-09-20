@@ -5,15 +5,15 @@
 ## 当前进度
 
 - [x] 工作区初始化
-- [x] `S01-L01`：从 Python 发出第一次模型请求
+- [x] [`S01-L01`](./demos/s01-l01-first-api/README.md)：从 Python 发出第一次模型请求
 - [x] [`S01-L02`](./demos/s01-l02-python-data/README.md)：Python 数据、控制流与容器
 - [x] [`S01-L03`](./demos/s01-l03-files-errors/README.md)：函数、模块、文件与异常
-- [ ] `S01-L04`：提示词、上下文与结构化消息
+- [x] [`S01-L04`](./demos/s01-l04-prompts-context/README.md)：提示词、上下文与结构化消息
 - [ ] `S01-L05`：Ollama 与本地模型
 - [ ] `S01-L06`：Streamlit 聊天机器人
 - [ ] `S01-GATE`：入门阶段闯关
 
-已完成的第 1 课保留原目录和命令，课程编号映射为 `S01-L01`。下一步学习 `S01-L04`；全部阶段、依赖和验收条件见[课程地图](./notes/ROADMAP.md)。
+前四课已统一使用 `S01-Lxx` 编号。下一步学习 `S01-L05`；全部阶段、依赖和验收条件见[课程地图](./notes/ROADMAP.md)。
 
 ## 六阶段导航
 
@@ -66,9 +66,9 @@ pytest
 运行已经完成的 `S01-L01`：
 
 ```bash
-python demos/week-01-first-api/scripts/check_progress.py
-python -m week01_first_api direct
-python -m week01_first_api.experiment
+python demos/s01-l01-first-api/scripts/check_progress.py
+python -m s01_l01_first_api direct
+python -m s01_l01_first_api.experiment
 ```
 
 ## 模型与安全约定
