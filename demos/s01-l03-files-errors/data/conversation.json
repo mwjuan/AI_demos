@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "messages": [
+    {
+      "role": "user",
+      "content": "什么是异常？"
+    },
+    {
+      "role": "assistant",
+      "content": "异常表示程序运行时遇到了不能正常完成的情况。"
+    }
+  ]
+}
