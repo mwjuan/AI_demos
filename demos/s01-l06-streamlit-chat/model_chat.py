@@ -90,4 +90,82 @@ def request_ollama_reply(
     # 2. 使用 httpx.Client(trust_env=False) 请求 OLLAMA_CHAT_URL。
     # 3. 先处理 HTTP/连接/超时/JSON 错误，再复用
     #    extract_assistant_reply() 验证并返回回答。
-    raise NotImplementedError("请完成 request_ollama_reply()")
+    payload = build_ollama_payload(model, messages)
+    with httpx.Client(trust_env=False, timeout=timeout) as client:
+        try:
+            response = client.post(OLLAMA_CHAT_URL, json=payload,timeout=timeout)
+            response.raise_for_status()
+            data = response.json()
+            return extract_assistant_reply(data)
+        
+        except httpx.TimeoutException as e:
+            raise OllamaChatError(
+                "请求 Ollama 超时，请稍后重试。"
+            ) from e
+        except httpx.ConnectError as e:
+            raise OllamaChatError(
+                "无法连接 Ollama，请确认服务已经启动。"
+            ) from e
+        except httpx.RequestError as e:
+            raise OllamaChatError(
+                f"请求 Ollama 时发生网络错误：{e}"
+            ) from e
+        except httpx.HTTPStatusError as e:
+            detail = e.response.text
+            try:
+                error_data = e.response.json()
+                if isinstance(error_data, dict):
+                    detail = error_data.get("error") or detail
+            except ValueError:
+                pass
+
+            raise OllamaChatError(
+                f"Ollama HTTP {e.response.status_code}：{detail}"
+            ) from e
+        except ValueError as e:
+            raise OllamaChatError(
+                "Ollama 响应不是有效的 JSON，无法解析回答。"
+            ) from e
+
+def request_ollama_reply_practice(
+    model: Any,
+    messages: Any,
+    *,
+    timeout: float = 120.0,
+) -> str:
+    """向本机 Ollama 发送完整聊天历史，并返回可展示的回答流。"""
+    payload = build_ollama_payload(model, messages)
+    with httpx.Client(trust_env=False, timeout=timeout) as client:
+        try:
+            response = client.post(OLLAMA_CHAT_URL, json=payload, timeout=timeout)
+            response.raise_for_status()
+            data = response.json()
+            return extract_assistant_reply(data)
+        except httpx.TimeoutException as e:
+            raise OllamaChatError(
+                "请求 Ollama 超时，请稍后重试。"
+            ) from e
+        except httpx.ConnectError as e:
+            raise OllamaChatError(
+                "无法连接 Ollama，请确认服务已经启动。"
+            ) from e
+        except httpx.RequestError as e:
+            raise OllamaChatError(
+                f"请求 Ollama 时发生网络错误：{e}"
+            ) from e
+        except httpx.HTTPStatusError as e:
+            detail = e.response.text
+            try:
+                error_data = e.response.json()
+                if isinstance(error_data, dict):
+                    detail = error_data.get("error") or detail
+            except ValueError:
+                pass
+
+            raise OllamaChatError(
+                f"Ollama HTTP {e.response.status_code}：{detail}"
+            ) from e
+        except ValueError as e:
+            raise OllamaChatError(
+                "Ollama 响应不是有效的 JSON，无法解析回答。"
+            ) from e

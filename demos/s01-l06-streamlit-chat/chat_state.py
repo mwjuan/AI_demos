@@ -12,6 +12,12 @@ def initialize_messages(
         state["messages"] = []
     return state["messages"]
 
+def reset_timeout(
+    state: MutableMapping[str, Any],
+) -> None:
+    """重置当前会话的超时设置。"""
+    state["timeout"] = 120
+        
 
 def clear_messages(
     state: MutableMapping[str, Any],

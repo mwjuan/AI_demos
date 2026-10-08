@@ -1,0 +1,14 @@
+FROM qwen3:4b
+
+# 本课只使用文本聊天；在回答前预先关闭思考区段。
+# 复用已安装的权重，不修改原模型。
+TEMPLATE """{{- if .System }}<|im_start|>system
+{{ .System }}<|im_end|>
+{{ end }}{{- range .Messages }}<|im_start|>{{ .Role }}
+{{ .Content }}<|im_end|>
+{{ end }}<|im_start|>assistant
+<think>
+
+</think>
+
+"""
