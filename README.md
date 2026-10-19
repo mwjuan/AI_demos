@@ -9,11 +9,11 @@
 - [x] [`S01-L02`](./demos/s01-l02-python-data/README.md)：Python 数据、控制流与容器
 - [x] [`S01-L03`](./demos/s01-l03-files-errors/README.md)：函数、模块、文件与异常
 - [x] [`S01-L04`](./demos/s01-l04-prompts-context/README.md)：提示词、上下文与结构化消息
-- [ ] `S01-L05`：Ollama 与本地模型
-- [ ] `S01-L06`：Streamlit 聊天机器人
+- [x] [`S01-L05`](./demos/s01-l05-ollama-local/README.md)：Ollama 与本地模型
+- [x] [`S01-L06`](./demos/s01-l06-streamlit-chat/README.md)：Streamlit 聊天机器人
 - [ ] `S01-GATE`：入门阶段闯关
 
-当前已推进至 `S01-L06`：聊天界面、模型请求和超时设置的引导练习及界面验证已完成，见[第六课复盘](./demos/s01-l06-streamlit-chat/reflection.md)。下一步完成独立变式，并核对 `S01-L05` 的验收，再进行 `S01-GATE`；全部阶段、依赖和验收条件见[课程地图](./notes/ROADMAP.md)。
+六课的学习与练习已完成：第五课实验与测试证据已核对；第六课聊天、保存/恢复、云端调用及模型设置保留均有验证记录，见[第六课复盘](./demos/s01-l06-streamlit-chat/reflection.md)。主线 [`knowledge-assistant/cli.py`](./knowledge-assistant/cli.py) 正常回答及六种失败输入/响应的模拟验证通过，学习者也已确认真实回答与空输入提示符合预期。[`knowledge-assistant/app.py`](./knowledge-assistant/app.py) 多轮聊天、刷新、错误处理及失败后恢复的模拟验证通过；清空按钮已实现，学习者确认真实姓名问答及清空测试完成，模拟验证也确认清空后的请求不含旧历史。模型来源切换、分别保存模型名、设置传入请求及超时的 1–600 秒范围均已验证；主线保存/加载及文件读写失败处理已验证，功能整合完成；当前待完成[最终验收](./notes/S01-GATE.md)中的“恢复默认设置”独立变式，之后标记 `S01-GATE` 通过并进入 `S02-L01`。此前通过的概念、数据流与独立调用验收无需重做。全部阶段、依赖和验收条件见[课程地图](./notes/ROADMAP.md)。
 
 ## 六阶段导航
 

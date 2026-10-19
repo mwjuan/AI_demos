@@ -3,7 +3,10 @@ from __future__ import annotations
 from typing import Any
 
 import httpx
-
+from s01_l01_first_api.config import load_config
+from s01_l01_first_api.client import create_model_client
+from s01_l01_first_api.runtime import load_lesson_environment
+from openai import APITimeoutError, APIConnectionError, APIStatusError
 
 OLLAMA_CHAT_URL = "http://127.0.0.1:11434/api/chat"
 
@@ -169,3 +172,82 @@ def request_ollama_reply_practice(
             raise OllamaChatError(
                 "Ollama 响应不是有效的 JSON，无法解析回答。"
             ) from e
+        
+def request_reply(
+    provider: str,
+    model: str,
+    messages: list[dict[str, str]], 
+    *,
+    timeout: float = 120.0,
+) -> str:
+    if provider == "ollama":
+        return request_ollama_reply(model, messages, timeout=timeout)
+    elif provider == "cloud":
+        load_lesson_environment()
+        config = load_config()
+
+        with create_model_client(config) as client:
+            return request_cloud_reply(
+                model,
+                messages,
+                client=client,
+                timeout=timeout,
+            )
+    else:
+        raise ValueError(f"暂不支持模型来源：{provider}")
+    
+
+def extract_cloud_reply(response) -> str:
+    # 1. choices 为空时，抛出 RuntimeError
+    if not response.choices:
+        raise RuntimeError("choices is empty")
+    
+    choice = response.choices[0]
+    reason = choice.finish_reason
+    content = choice.message.content
+    
+    # 2. finish_reason 不等于 "stop" 时，抛出 RuntimeError
+    if reason != "stop":
+        raise RuntimeError(f"finish_reason must be 'stop', got '{reason}'")
+    # 3. content 不是字符串或去除空白后为空时，抛出 RuntimeError
+    if not isinstance(content, str):
+        raise RuntimeError(f"content must be a string, got {type(content)}")
+    content = content.strip()
+    if not content:
+        raise RuntimeError("content is empty after stripping")
+    # 4. 返回去除前后空白的 content
+    return content
+
+
+def request_cloud_reply(
+    model: str,
+    messages: list[dict[str, str]],
+    *,
+    client,
+    timeout: float = 120.0,
+) -> str:
+    try:
+        # ① 使用 client 发送完整历史，结果保存到 response
+        response = client.chat.completions.create(
+            model=model,
+            messages=messages,
+            timeout=timeout,
+        )
+
+        # 记录服务目标与响应标识，供本课验证调用来源。
+        print(
+            f"[cloud] 收到响应：服务域名={client.base_url.host} "
+            f"模型={response.model} 响应ID={response.id} "
+            f"请求ID={getattr(response, '_request_id', None) or '未提供'}",
+            flush=True,
+        )
+        
+        # ② 调用 extract_cloud_reply(response)，并返回结果
+        return extract_cloud_reply(response)
+    except APITimeoutError as e:
+        raise RuntimeError(f"请求云端模型超时") from e
+    except APIConnectionError as e:
+        raise RuntimeError(f"无法连接云端模型") from e
+    except APIStatusError as e:
+        raise RuntimeError(f"云端模型返回错误状态码 {e.status_code}") from e
+    
